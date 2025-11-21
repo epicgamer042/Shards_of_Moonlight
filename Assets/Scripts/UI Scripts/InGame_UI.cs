@@ -29,6 +29,7 @@ public class InGame_UI : MonoBehaviour
     {
         EndGameZone.OnLevelCompleted -= HandleLevelCompleted;
     }
+
     //====// PAUSE MENU MANAGER //====//
 
     public void EnablePauseMenuUI()
