@@ -513,8 +513,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -167}
-  m_SizeDelta: {x: 1254.9446, y: 205.04102}
+  m_AnchoredPosition: {x: 0, y: -105}
+  m_SizeDelta: {x: 1423.7637, y: 380.2708}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &219100936
 MonoBehaviour:
@@ -536,7 +536,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: NIGHT PHASES
+  m_text: SHARDS OF MOONLIGHT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bfd886541df7e63459c321002b884f07, type: 2}
   m_sharedMaterial: {fileID: 1466392571884400124, guid: bfd886541df7e63459c321002b884f07, type: 2}
@@ -563,10 +563,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 250
+  m_fontSize: 192.55
   m_fontSizeBase: 250
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 400
   m_fontStyle: 0
