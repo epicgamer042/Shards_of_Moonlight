@@ -13,9 +13,9 @@ public class PlayerController : Entity
     [SerializeField] private TextMeshProUGUI healthValue;
 
     [Header("Input Action References")]
-    public InputActionReference move;
-    public InputActionReference fire;
+    public InputActionReference attack;
     public InputActionReference jump;
+    public InputActionReference move;
 
     [Header("Settings")]
     public float moveSpeed = 5f;
@@ -51,16 +51,16 @@ public class PlayerController : Entity
             rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
         }
     }
-        private void OnEnable()
+    private void OnEnable()
     {
-        SetupAction(fire, TryFire, true);
+        SetupAction(attack, TryAttack, true);
         SetupAction(jump, TryJump, true);
         SetupAction(move, null, true); // move has no event, just enabled
     }
 
     private void OnDisable()
     {
-        SetupAction(fire, TryFire, false);
+        SetupAction(attack, TryAttack, false);
         SetupAction(jump, TryJump, false);
         SetupAction(move, null, false);
     }
@@ -75,22 +75,22 @@ public class PlayerController : Entity
         {
             if (enable)
             {
-                if (callback != null) actionRef.action.started += callback;
+                if (callback != null) actionRef.action.performed += callback;
                 actionRef.action.Enable();
             }
             else
             {
-                if (callback != null) actionRef.action.started -= callback;
+                if (callback != null) actionRef.action.performed -= callback;
                 actionRef.action.Disable();
             }
         }
     }
 
-    //=====// FIRE METHOD //=====//
+    //=====// ATTACK METHOD //=====//
 
-    private void TryFire(InputAction.CallbackContext context)
+    private void TryAttack(InputAction.CallbackContext context)
     {
-            Debug.Log("Fired");
+        DamageTargets();
     }
 
 

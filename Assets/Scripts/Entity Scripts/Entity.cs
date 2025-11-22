@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Entity : MonoBehaviour
 {
@@ -7,11 +8,19 @@ public class Entity : MonoBehaviour
 
     protected Rigidbody2D rb;
     protected Collider2D col;
+    protected SpriteRenderer sr;
 
     [Header("Health")]
     [SerializeField] private int maxHealth = 7;
     [SerializeField] private int currentHealth;
-    
+    [SerializeField] private Material damageMaterial;
+    [SerializeField] private float damageFeedbackDuration = 0.1f;
+    private Coroutine damageFeedbackCoroutine;
+
+    [Header("Attack details")]
+    [SerializeField] protected float attackRadius;
+    [SerializeField] protected Transform attackPoint;
+    [SerializeField] protected LayerMask whatIsTarget;
 
     [Header("Collision Details")]
     [SerializeField] private float groundCheckDistance;
@@ -24,6 +33,8 @@ public class Entity : MonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<Collider2D>();
+        sr = GetComponentInChildren<SpriteRenderer>();
 
         currentHealth = maxHealth;
     }
@@ -38,11 +49,22 @@ public class Entity : MonoBehaviour
 
     public int GetCurrentHealth => currentHealth; //For (player) child access
 
+    public void DamageTargets()
+    {
+        Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, whatIsTarget);
+
+        foreach (Collider2D enemy in enemyColliders)
+        {
+            Entity entityTarget = enemy.GetComponent<Entity>();
+            entityTarget.TakeDamage();
+        }
+    }
+
     private void TakeDamage()
     {
         currentHealth--;
 
-        //PlayDamageFeedback();
+        PlayDamageFeedback();
 
         if (this is PlayerController player)
         {
@@ -64,6 +86,27 @@ public class Entity : MonoBehaviour
         Destroy(gameObject, 3);
     }
 
+    private void PlayDamageFeedback()
+    {
+        if (damageFeedbackCoroutine != null)
+            StopCoroutine(DamageFeedbackCoroutine());
+
+        StartCoroutine(DamageFeedbackCoroutine());
+    }
+
+    private IEnumerator DamageFeedbackCoroutine()
+    {
+        Material originalMat = sr.material;
+        Color originalColor = sr.color;
+
+        sr.color = Color.white;          // force neutral color
+        sr.material = damageMaterial;
+
+        yield return new WaitForSeconds(damageFeedbackDuration);
+
+        sr.material = originalMat;
+        sr.color = originalColor;        // restore original tint
+    }
 
     //=====// GROUND CHECK METHODS //=====//
 
@@ -76,7 +119,7 @@ public class Entity : MonoBehaviour
     {
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -groundCheckDistance));
 
-         //if (attackPoint != null)
-             //Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+        if (attackPoint != null)
+            Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
     }
 }
