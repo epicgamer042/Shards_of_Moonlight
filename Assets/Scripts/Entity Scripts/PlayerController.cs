@@ -13,9 +13,6 @@ public class PlayerController : Entity
     [SerializeField] private TextMeshProUGUI healthValue;
 
     [Header("Input Action References")]
-    private int shardCount = 0;
-
-    [Header("Input Action References")]
     public InputActionReference move;
     public InputActionReference fire;
     public InputActionReference jump;
@@ -59,8 +56,6 @@ public class PlayerController : Entity
         SetupAction(fire, TryFire, true);
         SetupAction(jump, TryJump, true);
         SetupAction(move, null, true); // move has no event, just enabled
-
-        MoonShard.OnShardToCollect += HandleCollectShard;
     }
 
     private void OnDisable()
@@ -68,8 +63,6 @@ public class PlayerController : Entity
         SetupAction(fire, TryFire, false);
         SetupAction(jump, TryJump, false);
         SetupAction(move, null, false);
-
-        MoonShard.OnShardToCollect -= HandleCollectShard;
     }
 
     //=====// INPUT ACTION MANAGEMENT //=====//
@@ -119,12 +112,5 @@ public class PlayerController : Entity
             healthValue.text = GetCurrentHealth.ToString();
     }
 
-    //=====// MOON SHARD COUNTING //=====//
-
-    public void HandleCollectShard()
-    {
-        shardCount++;
-        Debug.Log("Shards collected: " + shardCount);
-    }
 }
 

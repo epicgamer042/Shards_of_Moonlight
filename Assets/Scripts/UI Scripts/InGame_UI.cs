@@ -9,6 +9,9 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] private EndGame_UI endGameUI;
     [SerializeField] private CanvasGroup inGameUICanvasGroup;
     [SerializeField] private TextMeshProUGUI timerValue;
+    [SerializeField] private TextMeshProUGUI shardCountValue;
+
+    private int shardCount = 0;
 
     private void Awake()
     {
@@ -18,16 +21,19 @@ public class InGame_UI : MonoBehaviour
     private void Update()
     {
         timerValue.text = Time.timeSinceLevelLoad.ToString("F2") + "s";
+        shardCountValue.text = shardCount.ToString();
     }
 
     private void OnEnable()
     {
         EndGameZone.OnLevelCompleted += HandleLevelCompleted;
+        MoonShard.OnShardToCollect += HandleCollectShard;
     }
 
     private void OnDisable()
     {
         EndGameZone.OnLevelCompleted -= HandleLevelCompleted;
+        MoonShard.OnShardToCollect -= HandleCollectShard;
     }
 
     //====// PAUSE MENU MANAGER //====//
@@ -66,6 +72,7 @@ public class InGame_UI : MonoBehaviour
     {
         EnableEndGameMenuUI();
         endGameUI.ShowFinalTime(timerValue.text);
+        endGameUI.ShowFinalShardCount(shardCountValue.text);
     }
 
 
@@ -81,6 +88,13 @@ public class InGame_UI : MonoBehaviour
     {
         inGameUICanvasGroup.interactable = false;
         inGameUICanvasGroup.blocksRaycasts = false;
+    }
+
+    //=====// MOON SHARD COUNTING //=====//
+
+    public void HandleCollectShard()
+    {
+        shardCount++;
     }
 
 }
