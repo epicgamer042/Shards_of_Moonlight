@@ -27,6 +27,10 @@ public class Entity : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] protected bool isGrounded;
 
+    // Facing Direction Details
+    //protected int facingDir = 1;
+    protected bool facingRight = true;
+
 
     //=====// EVENT METHODS //=====//
 
@@ -42,6 +46,7 @@ public class Entity : MonoBehaviour
     protected virtual void Update()
     {
         HandleCollision();
+        HandleFlip();
     }
 
 
@@ -121,5 +126,22 @@ public class Entity : MonoBehaviour
 
         if (attackPoint != null)
             Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+    }
+
+    //=====// GROUND CHECK METHODS //=====//
+
+    protected virtual void HandleFlip()
+    {
+        if (rb.linearVelocity.x > 0 && facingRight == false)
+            Flip();
+        else if (rb.linearVelocity.x < 0 && facingRight == true)
+            Flip();
+    }
+
+    public void Flip()
+    {
+        transform.Rotate(0, 180, 0);
+        facingRight = !facingRight;
+        //facingDir = facingDir * -1;
     }
 }
