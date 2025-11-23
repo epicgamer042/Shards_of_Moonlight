@@ -22,6 +22,7 @@ public class PlayerController : Entity
     [SerializeField] private float jumpForce = 8f;
 
     private float horizontal;
+    private bool canJump = true;
 
 
     //=====// EVENT METHODS //=====//
@@ -65,6 +66,7 @@ public class PlayerController : Entity
         SetupAction(move, null, false);
     }
 
+
     //=====// INPUT ACTION MANAGEMENT //=====//
 
     private void SetupAction(InputActionReference actionRef, 
@@ -86,15 +88,8 @@ public class PlayerController : Entity
         }
     }
 
-    //=====// ATTACK METHOD //=====//
-
-    private void TryAttack(InputAction.CallbackContext context)
-    {
-        DamageTargets();
-    }
-
-
-    //=====// JUMP METHOD //=====//
+    
+    //=====// MOVEMENT //=====//
 
     private void TryJump(InputAction.CallbackContext ctx)
     {
@@ -102,6 +97,12 @@ public class PlayerController : Entity
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
+    }
+
+    public override void EnableMovement(bool enable)
+    {
+        base.EnableMovement(enable);
+        canJump = enable;
     }
 
     //=====// PLAYER HEALTH UI UPDATE //=====//

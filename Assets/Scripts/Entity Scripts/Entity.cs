@@ -1,11 +1,14 @@
-using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Entity : MonoBehaviour
 {
 
     //=====// DEFINITIONS //=====//
 
+    protected Animator anim;
     protected Rigidbody2D rb;
     protected Collider2D col;
     protected SpriteRenderer sr;
@@ -28,7 +31,8 @@ public class Entity : MonoBehaviour
     [SerializeField] protected bool isGrounded;
 
     // Facing Direction Details
-    //protected int facingDir = 1;
+    protected int facingDir = 1;
+    protected bool canMove = true;
     protected bool facingRight = true;
 
 
@@ -36,6 +40,7 @@ public class Entity : MonoBehaviour
 
     protected virtual void Awake()
     {
+        anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
@@ -46,6 +51,7 @@ public class Entity : MonoBehaviour
     protected virtual void Update()
     {
         HandleCollision();
+        HandleAnimations();
         HandleFlip();
     }
 
@@ -53,6 +59,15 @@ public class Entity : MonoBehaviour
     //=====// HEALTH & DAMAGE METHODS //=====//
 
     public int GetCurrentHealth => currentHealth; //For (player) child access
+
+    protected virtual void TryAttack(InputAction.CallbackContext context)
+    {
+        if (isGrounded)
+        {
+            anim.SetTrigger("attack");
+            Debug.Log("TEST ATTACK");
+        }
+    }
 
     public void DamageTargets()
     {
@@ -82,7 +97,7 @@ public class Entity : MonoBehaviour
 
     protected virtual void Die()
     {
-        //anim.enabled = false;
+        anim.enabled = false;
         col.enabled = false;
 
         rb.gravityScale = 12;
@@ -144,4 +159,28 @@ public class Entity : MonoBehaviour
         facingRight = !facingRight;
         //facingDir = facingDir * -1;
     }
+
+
+    //=====// ANIMATION METHODS //=====//
+
+    protected virtual void HandleAnimations()
+    {
+        anim.SetFloat("xVelocity", rb.linearVelocity.x);
+        anim.SetFloat("yVelocity", rb.linearVelocity.y);
+        anim.SetBool("isGrounded", isGrounded);
+    }
+
+
+    //=====// MOVEMENT //=====//
+
+    public virtual void EnableMovement(bool enable)
+    {
+        canMove = enable;
+    }
+
+    protected virtual void HandleMovement()
+    {
+        // Handled in child classes
+    }
+
 }
