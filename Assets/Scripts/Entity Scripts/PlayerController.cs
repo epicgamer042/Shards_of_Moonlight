@@ -3,6 +3,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class PlayerController : Entity
 {
@@ -46,12 +47,9 @@ public class PlayerController : Entity
 
     private void FixedUpdate()
     {
-        // Ensure Rigidbody exists before applying velocity
-        if (rb != null)
-        {
-            rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
-        }
+        HandleMovement();
     }
+
     private void OnEnable()
     {
         SetupAction(attack, TryAttack, true);
@@ -103,6 +101,15 @@ public class PlayerController : Entity
     {
         base.EnableMovement(enable);
         canJump = enable;
+    }
+
+    protected override void HandleMovement()
+    {
+        // Ensure Rigidbody exists before applying velocity and if move is enabled
+        if (rb != null && canMove)
+            rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
+        else
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
     }
 
     //=====// PLAYER HEALTH UI UPDATE //=====//

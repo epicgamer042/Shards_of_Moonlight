@@ -27,7 +27,7 @@ public class Entity : MonoBehaviour
 
     [Header("Collision Details")]
     [SerializeField] private float groundCheckDistance;
-    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected bool isGrounded;
 
     // Facing Direction Details
@@ -55,6 +55,10 @@ public class Entity : MonoBehaviour
         HandleFlip();
     }
 
+    private void FixedUpdate()
+    {
+        HandleMovement();
+    }
 
     //=====// HEALTH & DAMAGE METHODS //=====//
 
@@ -65,7 +69,7 @@ public class Entity : MonoBehaviour
         if (isGrounded)
         {
             anim.SetTrigger("attack");
-            Debug.Log("TEST ATTACK");
+            rb.linearVelocity = new Vector2(0,rb.linearVelocity.y);
         }
     }
 
@@ -157,7 +161,7 @@ public class Entity : MonoBehaviour
     {
         transform.Rotate(0, 180, 0);
         facingRight = !facingRight;
-        //facingDir = facingDir * -1;
+        facingDir = facingDir * -1;
     }
 
 

@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class InGame_UI : MonoBehaviour
 {
@@ -11,7 +12,10 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerValue;
     [SerializeField] private TextMeshProUGUI shardCountValue;
 
+    public static event Action AllShardsCollected;
+
     private int shardCount = 0;
+    public bool allSroudsFound = false;
 
     private void Awake()
     {
@@ -95,6 +99,11 @@ public class InGame_UI : MonoBehaviour
     public void HandleCollectShard()
     {
         shardCount++;
+
+        if (shardCount == 7)
+        {
+            AllShardsCollected?.Invoke();
+        }
     }
 
 }
