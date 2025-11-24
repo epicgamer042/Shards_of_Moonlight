@@ -8,6 +8,10 @@ public class EnemyController : Entity
     [Header("Movement Details")]
     [SerializeField] protected float moveSpeed = 3.5f;
 
+    [Header("Collision Details")]
+    [SerializeField] private float wallCheckDistance;
+    [SerializeField] protected bool wallDetected;
+
     private float attackCooldown = 1f; // seconds
     private float lastAttackTime;
 
@@ -20,13 +24,13 @@ public class EnemyController : Entity
         TryAttack();
     }
 
-    //=====// ATTACK METHOD //=====//
+    //=====// ATTACK METHODS //=====//
 
     private void TryAttack()
     {
         if (playerDetected && Time.time >= lastAttackTime + attackCooldown)
         {
-            DamageTargets();
+            anim.SetTrigger("attack");
             lastAttackTime = Time.time;
         }
     }
@@ -35,6 +39,7 @@ public class EnemyController : Entity
     {
         base.HandleCollision();
         playerDetected = Physics2D.OverlapCircle(attackPoint.position, attackRadius, whatIsTarget);
+        wallDetected = Physics2D.Raycast(transform.position, transform.right, wallCheckDistance, whatIsGround);
     }
 
     protected override void HandleMovement()
@@ -44,6 +49,22 @@ public class EnemyController : Entity
         else
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
     }
+
+    protected override void HandleFlip()
+    {
+        if (wallDetected && facingRight == false) // flip if facing wall and left
+            Flip();
+        else if (wallDetected && facingRight == true) // flip if facing wall and left
+            Flip();
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Draw line to check for ground layer (wall) around enemy ankles
+        Gizmos.DrawLine(transform.position, transform.position + new Vector3(wallCheckDistance, 0));
+    }
+
+    //=====// ANIMATION METHODS //=====//
 
     protected override void HandleAnimations()
     {
