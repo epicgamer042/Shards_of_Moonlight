@@ -151,10 +151,7 @@ public class Entity : MonoBehaviour
 
     protected virtual void HandleFlip()
     {
-        if (rb.linearVelocity.x > 0 && facingRight == false)
-            Flip();
-        else if (rb.linearVelocity.x < 0 && facingRight == true)
-            Flip();
+        // Handle In Children
     }
 
     public void Flip()
