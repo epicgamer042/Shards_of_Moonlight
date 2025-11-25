@@ -18,4 +18,10 @@ public class PauseMenu_UI : MonoBehaviour
     {
         SceneManager.LoadScene("TitleScreen");
     }
+
+    public void RestartCurrentScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+    }
 }
