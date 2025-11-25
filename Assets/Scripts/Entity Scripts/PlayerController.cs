@@ -45,11 +45,6 @@ public class PlayerController : Entity
         }
     }
 
-    private void FixedUpdate()
-    {
-        HandleMovement();
-    }
-
     private void OnEnable()
     {
         SetupAction(attack, TryAttack, true);
@@ -110,6 +105,19 @@ public class PlayerController : Entity
             rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
         else
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+    }
+
+    protected override void HandleFlip()
+    {
+        if (move != null && move.action != null)
+        {
+            float moveInput = move.action.ReadValue<float>();
+
+            if (moveInput > 0 && !facingRight)
+                Flip();
+            else if (moveInput < 0 && facingRight)
+                Flip();
+        }
     }
 
     //=====// PLAYER HEALTH UI UPDATE //=====//
