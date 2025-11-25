@@ -15,12 +15,12 @@ public class MainMenu_UI : MonoBehaviour
 
     public void ExitGame()
     {
-        //Exit in build application
-        Application.Quit();
-
-        //Exit in Unity Editor (UNITY_EDITOR is not defined in a built game)
-        # if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+        #if UNITY_WEBGL && !UNITY_EDITOR
+            Application.ExternalCall("location.reload"); // Refresh web build on exit (deprecated but should still work)
+        #elif UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false; //Exit from Unity Editor
+        #else
+            Application.Quit(); // Exit from standalone
         #endif
     }
 }
