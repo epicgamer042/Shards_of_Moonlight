@@ -35,6 +35,9 @@ public class Entity : MonoBehaviour
     protected bool canMove = true;
     protected bool facingRight = true;
 
+    protected bool canJump = true;
+    protected bool canFlip = true;
+
 
     //=====// EVENT METHODS //=====//
 
@@ -59,6 +62,7 @@ public class Entity : MonoBehaviour
     {
         HandleMovement();
     }
+
 
     //=====// HEALTH & DAMAGE METHODS //=====//
 
@@ -177,6 +181,8 @@ public class Entity : MonoBehaviour
     public virtual void EnableMovement(bool enable)
     {
         canMove = enable;
+        canJump = enable;
+        canFlip = enable;
     }
 
     protected virtual void HandleMovement()

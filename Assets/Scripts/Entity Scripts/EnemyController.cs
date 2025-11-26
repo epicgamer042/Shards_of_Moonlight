@@ -52,10 +52,10 @@ public class EnemyController : Entity
 
     protected override void HandleFlip()
     {
-        if (wallDetected && facingRight == false) // flip if facing wall and left
+        if (canFlip && wallDetected)
+        {
             Flip();
-        else if (wallDetected && facingRight == true) // flip if facing wall and left
-            Flip();
+        }
     }
 
     private void OnDrawGizmos()
