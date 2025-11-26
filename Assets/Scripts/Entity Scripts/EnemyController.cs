@@ -15,6 +15,9 @@ public class EnemyController : Entity
     private float attackCooldown = 1f; // seconds
     private float lastAttackTime;
 
+    public GameObject moonShardPrefab;
+
+
     //=====// EVENT METHODS //=====//
 
     protected override void Update()
@@ -23,6 +26,7 @@ public class EnemyController : Entity
 
         TryAttack();
     }
+
 
     //=====// ATTACK METHODS //=====//
 
@@ -34,6 +38,9 @@ public class EnemyController : Entity
             lastAttackTime = Time.time;
         }
     }
+
+
+    //=====// MOVEMENT METHODS //=====//
 
     protected override void HandleCollision()
     {
@@ -60,7 +67,7 @@ public class EnemyController : Entity
 
     private void OnDrawGizmos()
     {
-        // Draw line to check for ground layer (wall) around enemy ankles
+        // Draw line to check for ground layer (wall) for enemy to turn around
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(wallCheckDistance, 0));
     }
 
@@ -73,4 +80,35 @@ public class EnemyController : Entity
         //anim.SetBool("isGrounded", isGrounded);
     }
 
+
+    //====// ON DEATH METHODS //====//
+
+    protected override void Die()
+    {
+        SpawnShardsOnDie();
+
+        anim.enabled = false;
+        col.enabled = false;
+
+        rb.gravityScale = 12;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 15);
+
+        Destroy(gameObject, 3);
+    }
+
+    private void SpawnShardsOnDie()
+    {
+        for (int i = 0; i < Random.Range(0, 3); i++)
+        {
+            GameObject shard = Instantiate(moonShardPrefab, transform.position, Quaternion.identity);
+
+            MoonShard shardScript = shard.GetComponent<MoonShard>();
+            Rigidbody2D shardRb = shard.GetComponent<Rigidbody2D>();
+
+            shardScript.SetPickupDelay(0.64f);
+            float xVel = Random.Range(-2f, 2f);
+            float yVel = Random.Range(2f, 5f);
+            shardRb.linearVelocity = new Vector2(xVel, yVel);
+        }
+    }
 }
