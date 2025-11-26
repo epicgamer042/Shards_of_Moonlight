@@ -1,7 +1,8 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using System;
 
 public class InGame_UI : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] private CanvasGroup inGameUICanvasGroup;
     [SerializeField] private TextMeshProUGUI timerValue;
     [SerializeField] private TextMeshProUGUI shardCountValue;
+    public PlayerController playerController;
 
     public static event Action AllShardsCollected;
 
@@ -44,37 +46,28 @@ public class InGame_UI : MonoBehaviour
 
     public void EnablePauseMenuUI()
     {
-        pauseMenuUI_Panel.SetActive(true);
         Time.timeScale = 0;
+        playerController.DisablePlayerInput();
         DisableInGameUI();
+        pauseMenuUI_Panel.SetActive(true);
     }
 
     public void DisablePauseMenuUI()
     {
         pauseMenuUI_Panel.SetActive(false);
+        EnableInGameUI();
+        playerController.EnablePlayerInput();
         Time.timeScale = 1;
-        EanableInGameUI();
     }
 
     //====// END GAME MENU MANAGER //====//
 
-    public void EnableEndGameMenuUI()
-    {
-        EndGameMenuUI_Panel.SetActive(true);
-        Time.timeScale = 0;
-        DisableInGameUI();
-    }
-
-    public void DisableEndGameMenuUI()
-    {
-        EndGameMenuUI_Panel.SetActive(false);
-        Time.timeScale = 1;
-        EanableInGameUI();
-    }
-
     private void HandleLevelCompleted()
     {
-        EnableEndGameMenuUI();
+        Time.timeScale = 0;
+        playerController.DisablePlayerInput();
+        DisableInGameUI();
+        EndGameMenuUI_Panel.SetActive(true);
         endGameUI.ShowFinalTime(timerValue.text);
         endGameUI.ShowFinalShardCount(shardCountValue.text);
     }
@@ -82,7 +75,7 @@ public class InGame_UI : MonoBehaviour
 
     //====// IN GAME UI MANAGER //====//
 
-    public void EanableInGameUI()
+    public void EnableInGameUI()
     {
         inGameUICanvasGroup.interactable = true;
         inGameUICanvasGroup.blocksRaycasts = true;

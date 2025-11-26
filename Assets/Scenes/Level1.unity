@@ -615,6 +615,7 @@ MonoBehaviour:
   inGameUICanvasGroup: {fileID: 97058251}
   timerValue: {fileID: 593843380}
   shardCountValue: {fileID: 1086918832}
+  playerController: {fileID: 6529892899116315841}
   allSroudsFound: 0
 --- !u!225 &97058251
 CanvasGroup:
@@ -9264,6 +9265,7 @@ MonoBehaviour:
   move: {fileID: -6323504667231370231, guid: 18d8e6463ffc0b548adbef63f7a450d5, type: 3}
   moveSpeed: 6
   jumpForce: 10
+  inputActions: {fileID: -944628639613478452, guid: 18d8e6463ffc0b548adbef63f7a450d5, type: 3}
 --- !u!114 &6627965159698395888
 MonoBehaviour:
   m_ObjectHideFlags: 0

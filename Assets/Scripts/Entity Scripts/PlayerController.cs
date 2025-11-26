@@ -23,8 +23,9 @@ public class PlayerController : Entity
     [SerializeField] private float jumpForce = 8f;
 
     private float horizontal;
-    private bool canJump = true;
 
+    [SerializeField] private InputActionAsset inputActions;
+    private InputActionMap gameplayMap;
 
     //=====// EVENT METHODS //=====//
 
@@ -32,17 +33,14 @@ public class PlayerController : Entity
     {
         base.Awake();
         UpdateHealthUI();
+        gameplayMap = inputActions.FindActionMap("Gameplay", true);
+        gameplayMap.Enable();
     }
 
     protected override void Update()
     {
         base.Update();
-
-        // Check if move action is valid before reading
-        if (move != null && move.action != null)
-        {
-            horizontal = move.action.ReadValue<float>();
-        }
+        ReadMoveInput();
     }
 
     private void OnEnable()
@@ -81,21 +79,34 @@ public class PlayerController : Entity
         }
     }
 
-    
+    private void ReadMoveInput()
+    {
+        // Check if move action is valid before reading
+        if (move != null && move.action != null)
+        {
+            horizontal = move.action.ReadValue<float>();
+        }
+    }
+
+    public void EnablePlayerInput()
+    {
+        gameplayMap.Enable();
+    }
+
+    public void DisablePlayerInput()
+    {
+        gameplayMap.Disable();
+    }
+
+
     //=====// MOVEMENT //=====//
 
     private void TryJump(InputAction.CallbackContext ctx)
     {
-        if (rb != null && isGrounded)
+        if (rb != null && isGrounded && canJump)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
-    }
-
-    public override void EnableMovement(bool enable)
-    {
-        base.EnableMovement(enable);
-        canJump = enable;
     }
 
     protected override void HandleMovement()
@@ -109,14 +120,14 @@ public class PlayerController : Entity
 
     protected override void HandleFlip()
     {
-        if (move != null && move.action != null)
+        if (move != null && move.action != null && canFlip)
         {
             float moveInput = move.action.ReadValue<float>();
 
-            if (moveInput > 0 && !facingRight)
+            if ((moveInput > 0 && !facingRight) || (moveInput < 0 && facingRight))
+            {
                 Flip();
-            else if (moveInput < 0 && facingRight)
-                Flip();
+            }
         }
     }
 
