@@ -12,12 +12,20 @@ public class MoonShard : MonoBehaviour
     private bool isMagnetizing = false; // Initialize State as False
     private Transform player; // Define the player transform
 
+    private float pickupDelay = 0.0f;
+
     private void Awake()
     {
         // Get References at creation
         rb = GetComponent<Rigidbody2D>();
         triggerCollider = GetComponent<CircleCollider2D>();
         physicsCollider = GetComponent<PolygonCollider2D>();
+    }
+
+    private void Start()
+    {
+        triggerCollider.enabled = false;
+        Invoke(nameof(EnableTriggerCollider), pickupDelay);
     }
 
     private void Update()
@@ -65,5 +73,15 @@ public class MoonShard : MonoBehaviour
     private void CollectShard()
     {
         Destroy(gameObject); // remove shard from scene
+    }
+
+    private void EnableTriggerCollider()
+    {
+        triggerCollider.enabled = true;
+    }
+
+    public void SetPickupDelay(float delay)
+    {
+        pickupDelay = delay;
     }
 }
