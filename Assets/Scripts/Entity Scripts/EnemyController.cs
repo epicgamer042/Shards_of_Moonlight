@@ -15,6 +15,9 @@ public class EnemyController : Entity
     private float attackCooldown = 1f; // seconds
     private float lastAttackTime;
 
+    public GameObject moonShardPrefab;
+
+
     //=====// EVENT METHODS //=====//
 
     protected override void Update()
@@ -58,9 +61,22 @@ public class EnemyController : Entity
         }
     }
 
+    protected override void Die()
+    {
+        anim.enabled = false;
+        col.enabled = false;
+
+        rb.gravityScale = 12;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 15);
+
+        // ADD SHARD SPAWN METHOD HERE
+
+        Destroy(gameObject, 3);
+    }
+
     private void OnDrawGizmos()
     {
-        // Draw line to check for ground layer (wall) around enemy ankles
+        // Draw line to check for ground layer (wall) for enemy to turn around
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(wallCheckDistance, 0));
     }
 
@@ -72,5 +88,9 @@ public class EnemyController : Entity
         //anim.SetFloat("yVelocity", rb.linearVelocity.y);
         //anim.SetBool("isGrounded", isGrounded);
     }
+
+
+    //====// ON DEATH METHODS //====//
+
 
 }
