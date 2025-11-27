@@ -27,6 +27,8 @@ public class PlayerController : Entity
     [SerializeField] private InputActionAsset inputActions;
     private InputActionMap gameplayMap;
 
+    public static event Action OnPlayerDie;
+
     //=====// EVENT METHODS //=====//
 
     protected override void Awake()
@@ -131,13 +133,21 @@ public class PlayerController : Entity
         }
     }
 
-    //=====// PLAYER HEALTH UI UPDATE //=====//
+    //=====// HEALTH METHODS //=====//
 
     public void UpdateHealthUI()
     {
         if (healthValue != null)
             healthValue.text = GetCurrentHealth.ToString();
     }
+
+    protected override void Die()
+    {
+        OnPlayerDie?.Invoke(); // this fires the event of player death
+        base.Die();
+    }
+
+
 
 }
 

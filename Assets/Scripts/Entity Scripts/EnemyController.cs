@@ -86,14 +86,7 @@ public class EnemyController : Entity
     protected override void Die()
     {
         SpawnShardsOnDie();
-
-        anim.enabled = false;
-        col.enabled = false;
-
-        rb.gravityScale = 12;
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 15);
-
-        Destroy(gameObject, 3);
+        base.Die();
     }
 
     private void SpawnShardsOnDie()

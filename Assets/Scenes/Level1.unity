@@ -1457,6 +1457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1157d6975124e1e4cb902e83dfed7566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endGameState: {fileID: 1628551022}
   finalTime: {fileID: 971795453}
   finalShardCount: {fileID: 1114348698}
 --- !u!1 &406868678
@@ -5354,7 +5355,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GAME OVER
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bfd886541df7e63459c321002b884f07, type: 2}
   m_sharedMaterial: {fileID: 1466392571884400124, guid: bfd886541df7e63459c321002b884f07, type: 2}
@@ -5381,7 +5382,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 81.55
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
