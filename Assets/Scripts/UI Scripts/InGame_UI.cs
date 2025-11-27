@@ -42,7 +42,7 @@ public class InGame_UI : MonoBehaviour
     {
         EndGameZone.OnLevelCompleted -= HandleLevelComplete;
         MoonShard.OnShardToCollect -= HandleCollectShard;
-        PlayerController.OnPlayerDie += HandlePlayerDie;
+        PlayerController.OnPlayerDie -= HandlePlayerDie;
     }
 
     //====// PAUSE MENU MANAGER //====//
