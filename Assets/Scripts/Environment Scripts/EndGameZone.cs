@@ -21,7 +21,6 @@ public class EndGameZone : MonoBehaviour
     private void HandleShardCompletion()
     {
         allShroudsFound = true;
-        Debug.Log("Shard requirement completed!");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

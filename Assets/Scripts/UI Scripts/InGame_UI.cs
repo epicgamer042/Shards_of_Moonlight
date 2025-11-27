@@ -18,6 +18,7 @@ public class InGame_UI : MonoBehaviour
 
     private int shardCount = 0;
     public bool allSroudsFound = false;
+    private bool winLevel = false;
 
     private void Awake()
     {
@@ -32,14 +33,16 @@ public class InGame_UI : MonoBehaviour
 
     private void OnEnable()
     {
-        EndGameZone.OnLevelCompleted += HandleLevelCompleted;
+        EndGameZone.OnLevelCompleted += HandleLevelComplete;
         MoonShard.OnShardToCollect += HandleCollectShard;
+        PlayerController.OnPlayerDie += HandlePlayerDie;
     }
 
     private void OnDisable()
     {
-        EndGameZone.OnLevelCompleted -= HandleLevelCompleted;
+        EndGameZone.OnLevelCompleted -= HandleLevelComplete;
         MoonShard.OnShardToCollect -= HandleCollectShard;
+        PlayerController.OnPlayerDie += HandlePlayerDie;
     }
 
     //====// PAUSE MENU MANAGER //====//
@@ -62,7 +65,7 @@ public class InGame_UI : MonoBehaviour
 
     //====// END GAME MENU MANAGER //====//
 
-    private void HandleLevelCompleted()
+    private void HandleLevelEnd()
     {
         Time.timeScale = 0;
         playerController.DisablePlayerInput();
@@ -70,8 +73,20 @@ public class InGame_UI : MonoBehaviour
         EndGameMenuUI_Panel.SetActive(true);
         endGameUI.ShowFinalTime(timerValue.text);
         endGameUI.ShowFinalShardCount(shardCountValue.text);
+        endGameUI.ShowEndGameState(winLevel);
     }
 
+    private void HandlePlayerDie()
+    {
+        winLevel = false;
+        HandleLevelEnd();
+    }
+
+    private void HandleLevelComplete()
+    {
+        winLevel = true;
+        HandleLevelEnd();
+    }
 
     //====// IN GAME UI MANAGER //====//
 
