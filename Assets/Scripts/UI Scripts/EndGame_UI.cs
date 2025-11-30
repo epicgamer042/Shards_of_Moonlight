@@ -8,6 +8,7 @@ public class EndGame_UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI finalTime;
     [SerializeField] private TextMeshProUGUI finalShardCount;
 
+
     public void ShowEndGameState(bool levelstate)
     {
         if (levelstate)

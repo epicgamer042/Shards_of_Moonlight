@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class InGame_UI : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject pauseMenuUI_Panel;
     [SerializeField] private GameObject EndGameMenuUI_Panel;
     [SerializeField] private EndGame_UI endGameUI;
@@ -14,34 +15,24 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI shardCountValue;
     public PlayerController playerController;
 
-    public static event Action AllShardsCollected;
 
-    private int shardCount = 0;
-    public bool allSroudsFound = false;
-    private bool winLevel = false;
-
-    private void Awake()
-    {
-        Time.timeScale = 1;
-    }
+    //=====// EVENT METHODS //=====//
 
     private void Update()
     {
-        timerValue.text = Time.timeSinceLevelLoad.ToString("F2") + "s";
-        shardCountValue.text = shardCount.ToString();
+        timerValue.text = gameManager.elapsedTime.ToString("F2") + "s";
+        shardCountValue.text = gameManager.getShardCount().ToString();
     }
 
     private void OnEnable()
     {
         EndGameZone.OnLevelCompleted += HandleLevelComplete;
-        MoonShard.OnShardToCollect += HandleCollectShard;
         PlayerController.OnPlayerDie += HandlePlayerDie;
     }
 
     private void OnDisable()
     {
         EndGameZone.OnLevelCompleted -= HandleLevelComplete;
-        MoonShard.OnShardToCollect -= HandleCollectShard;
         PlayerController.OnPlayerDie -= HandlePlayerDie;
     }
 
@@ -73,18 +64,16 @@ public class InGame_UI : MonoBehaviour
         EndGameMenuUI_Panel.SetActive(true);
         endGameUI.ShowFinalTime(timerValue.text);
         endGameUI.ShowFinalShardCount(shardCountValue.text);
-        endGameUI.ShowEndGameState(winLevel);
+        endGameUI.ShowEndGameState(gameManager.winLevel);
     }
 
     private void HandlePlayerDie()
     {
-        winLevel = false;
         HandleLevelEnd();
     }
 
     private void HandleLevelComplete()
     {
-        winLevel = true;
         HandleLevelEnd();
     }
 
@@ -100,18 +89,6 @@ public class InGame_UI : MonoBehaviour
     {
         inGameUICanvasGroup.interactable = false;
         inGameUICanvasGroup.blocksRaycasts = false;
-    }
-
-    //=====// MOON SHARD COUNTING //=====//
-
-    public void HandleCollectShard()
-    {
-        shardCount++;
-
-        if (shardCount == 7)
-        {
-            AllShardsCollected?.Invoke();
-        }
     }
 
 }

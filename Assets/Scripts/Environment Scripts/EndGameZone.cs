@@ -10,12 +10,12 @@ public class EndGameZone : MonoBehaviour
 
     private void OnEnable()
     {
-        InGame_UI.AllShardsCollected += HandleShardCompletion;
+        GameManager.AllShardsCollected += HandleShardCompletion;
     }
 
     private void OnDisable()
     {
-        InGame_UI.AllShardsCollected += HandleShardCompletion;
+        GameManager.AllShardsCollected += HandleShardCompletion;
     }
 
     private void HandleShardCompletion()
