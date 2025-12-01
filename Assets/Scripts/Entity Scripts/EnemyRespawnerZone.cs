@@ -70,7 +70,9 @@ public class EnemyRespawnerZone : MonoBehaviour
             }
             
             GameObject newEnemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation); // Spawn Enemy
-            
+
+            newEnemy.transform.SetParent(transform); // Make sure Enemies are under level prefab, not scene so they get destroyed with level load
+
             yield return new WaitForSeconds(0.5f); // Delay to process Enemy count in OnTriggerEnter before continuiing loop
         }
         

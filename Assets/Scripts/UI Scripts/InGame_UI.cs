@@ -6,43 +6,32 @@ using UnityEngine.UI;
 
 public class InGame_UI : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject pauseMenuUI_Panel;
     [SerializeField] private GameObject EndGameMenuUI_Panel;
     [SerializeField] private EndGame_UI endGameUI;
     [SerializeField] private CanvasGroup inGameUICanvasGroup;
     [SerializeField] private TextMeshProUGUI timerValue;
     [SerializeField] private TextMeshProUGUI shardCountValue;
-    public PlayerController playerController;
+    [SerializeField] private TextMeshProUGUI playerHealthValue;
 
-    public static event Action AllShardsCollected;
 
-    private int shardCount = 0;
-    public bool allSroudsFound = false;
-    private bool winLevel = false;
-
-    private void Awake()
-    {
-        Time.timeScale = 1;
-    }
+    //=====// EVENT METHODS //=====//
 
     private void Update()
     {
-        timerValue.text = Time.timeSinceLevelLoad.ToString("F2") + "s";
-        shardCountValue.text = shardCount.ToString();
+        timerValue.text = gameManager.elapsedTime.ToString("F2") + "s";
+        shardCountValue.text = gameManager.getShardCount().ToString();
     }
 
     private void OnEnable()
     {
-        EndGameZone.OnLevelCompleted += HandleLevelComplete;
-        MoonShard.OnShardToCollect += HandleCollectShard;
-        PlayerController.OnPlayerDie += HandlePlayerDie;
+        PlayerController.OnHealthChanged += UpdateHealthText;
     }
 
     private void OnDisable()
     {
-        EndGameZone.OnLevelCompleted -= HandleLevelComplete;
-        MoonShard.OnShardToCollect -= HandleCollectShard;
-        PlayerController.OnPlayerDie -= HandlePlayerDie;
+        PlayerController.OnHealthChanged -= UpdateHealthText;
     }
 
     //====// PAUSE MENU MANAGER //====//
@@ -50,7 +39,7 @@ public class InGame_UI : MonoBehaviour
     public void EnablePauseMenuUI()
     {
         Time.timeScale = 0;
-        playerController.DisablePlayerInput();
+        gameManager.DisablePlayerControls();
         DisableInGameUI();
         pauseMenuUI_Panel.SetActive(true);
     }
@@ -59,33 +48,27 @@ public class InGame_UI : MonoBehaviour
     {
         pauseMenuUI_Panel.SetActive(false);
         EnableInGameUI();
-        playerController.EnablePlayerInput();
+        gameManager.EnablePlayerControls();
         Time.timeScale = 1;
     }
 
     //====// END GAME MENU MANAGER //====//
 
-    private void HandleLevelEnd()
+    public void HandleLevelEnd()
     {
         Time.timeScale = 0;
-        playerController.DisablePlayerInput();
+        gameManager.DisablePlayerControls();
         DisableInGameUI();
         EndGameMenuUI_Panel.SetActive(true);
-        endGameUI.ShowFinalTime(timerValue.text);
-        endGameUI.ShowFinalShardCount(shardCountValue.text);
-        endGameUI.ShowEndGameState(winLevel);
+        endGameUI.HandleMenuState(gameManager.winLevel, gameManager.winGame, timerValue.text, shardCountValue.text);
     }
 
-    private void HandlePlayerDie()
+    public void DisableLevelEndUI()
     {
-        winLevel = false;
-        HandleLevelEnd();
-    }
-
-    private void HandleLevelComplete()
-    {
-        winLevel = true;
-        HandleLevelEnd();
+        EndGameMenuUI_Panel.SetActive(false);
+        EnableInGameUI();
+        gameManager.EnablePlayerControls();
+        Time.timeScale = 1;
     }
 
     //====// IN GAME UI MANAGER //====//
@@ -102,16 +85,10 @@ public class InGame_UI : MonoBehaviour
         inGameUICanvasGroup.blocksRaycasts = false;
     }
 
-    //=====// MOON SHARD COUNTING //=====//
-
-    public void HandleCollectShard()
+    private void UpdateHealthText(int health)
     {
-        shardCount++;
-
-        if (shardCount == 7)
-        {
-            AllShardsCollected?.Invoke();
-        }
+        playerHealthValue.text = health.ToString();
     }
+
 
 }

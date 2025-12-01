@@ -10,9 +10,6 @@ public class PlayerController : Entity
 
     //=====// DEFINITIONS //=====//
 
-    [Header("Player Health Bar")]
-    [SerializeField] private TextMeshProUGUI healthValue;
-
     [Header("Input Action References")]
     public InputActionReference attack;
     public InputActionReference jump;
@@ -28,6 +25,7 @@ public class PlayerController : Entity
     private InputActionMap gameplayMap;
 
     public static event Action OnPlayerDie;
+    public static event Action<int> OnHealthChanged;
 
     //=====// EVENT METHODS //=====//
 
@@ -137,8 +135,7 @@ public class PlayerController : Entity
 
     public void UpdateHealthUI()
     {
-        if (healthValue != null)
-            healthValue.text = GetCurrentHealth.ToString();
+        OnHealthChanged?.Invoke(GetCurrentHealth);
     }
 
     protected override void Die()

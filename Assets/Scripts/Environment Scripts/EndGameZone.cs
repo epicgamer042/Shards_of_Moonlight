@@ -3,19 +3,18 @@ using System;
 
 public class EndGameZone : MonoBehaviour
 {
-
     public static event Action OnLevelCompleted;
 
     private bool allShroudsFound = false;
 
     private void OnEnable()
     {
-        InGame_UI.AllShardsCollected += HandleShardCompletion;
+        GameManager.AllShardsCollected += HandleShardCompletion;
     }
 
     private void OnDisable()
     {
-        InGame_UI.AllShardsCollected += HandleShardCompletion;
+        GameManager.AllShardsCollected -= HandleShardCompletion;
     }
 
     private void HandleShardCompletion()

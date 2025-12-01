@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu_UI : MonoBehaviour
 {
+    [SerializeField] private InGame_UI inGameUI;
+    [SerializeField] private GameManager gameManager;
+
     public void ExitGame()
     {
         #if UNITY_WEBGL && !UNITY_EDITOR   
@@ -21,7 +24,7 @@ public class PauseMenu_UI : MonoBehaviour
 
     public void RestartCurrentScene()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        inGameUI.DisablePauseMenuUI();
+        gameManager.RestartLevel();
     }
 }
