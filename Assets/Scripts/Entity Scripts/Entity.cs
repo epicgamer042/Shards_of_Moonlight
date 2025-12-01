@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class Entity : MonoBehaviour
     [SerializeField] private Material damageMaterial;
     [SerializeField] private float damageFeedbackDuration = 0.1f;
     private Coroutine damageFeedbackCoroutine;
+    
 
     [Header("Attack details")]
     [SerializeField] protected float attackRadius;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,9 +9,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> levelPrefabs; // List of Level Prefabs, assigned in inspector
     [SerializeField] private GameObject playerPrefab; // Player prefab, assigned in inspector
-    private GameObject currentPlayer;
 
+    private GameObject currentPlayer;
+    private PlayerController playerController;
     private int currentLevelIndex = 0;
+    private GameObject currentLevel;
 
     //=====// GAME DATA MANAGEMENT //=====//
 
@@ -57,14 +60,14 @@ public class GameManager : MonoBehaviour
 
     private void LoadLevel(int index)
     {
-        // Turn off all levels
-        foreach (GameObject level in levelPrefabs)
+        // Destroy old level if it exists
+        if (currentLevel != null)
         {
-            level.SetActive(false);
+            Destroy(currentLevel);
         }
 
-        // Enable the desired level
-        levelPrefabs[index].SetActive(true);
+        // Instantiate new level
+        currentLevel = Instantiate(levelPrefabs[index]);
 
         // Find PlayerSpawn inside the active level
         Transform spawnPoint = levelPrefabs[index].transform.Find("PlayerSpawn");
@@ -77,8 +80,9 @@ public class GameManager : MonoBehaviour
 
         // Spawn new player and store reference
         currentPlayer = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        playerController = currentPlayer.GetComponent<PlayerController>();
 
-        // set health, time, and shard count to starting values
+        // set health, time, and shard count to starting valuess
     }
 
     private void LoadNextLevel()
@@ -121,7 +125,7 @@ public class GameManager : MonoBehaviour
     {
         shardCount++;
 
-        if (shardCount > 7)
+        if (shardCount == 7)
         {
             AllShardsCollected?.Invoke();
         }
@@ -136,5 +140,18 @@ public class GameManager : MonoBehaviour
     public void ResetLevelTimer()
     {
         elapsedTime = 0f;
+    }
+
+
+    //====// PLAYER CONTROL //====//
+
+    public void EnablePlayerControls()
+    {
+        playerController.EnablePlayerInput();
+    }
+
+    public void DisablePlayerControls()
+    {
+        playerController.DisablePlayerInput();
     }
 }

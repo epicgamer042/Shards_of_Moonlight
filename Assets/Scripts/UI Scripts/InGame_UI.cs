@@ -13,7 +13,7 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] private CanvasGroup inGameUICanvasGroup;
     [SerializeField] private TextMeshProUGUI timerValue;
     [SerializeField] private TextMeshProUGUI shardCountValue;
-    public PlayerController playerController;
+    [SerializeField] private TextMeshProUGUI playerHealthValue;
 
 
     //=====// EVENT METHODS //=====//
@@ -28,12 +28,14 @@ public class InGame_UI : MonoBehaviour
     {
         EndGameZone.OnLevelCompleted += HandleLevelComplete;
         PlayerController.OnPlayerDie += HandlePlayerDie;
+        PlayerController.OnHealthChanged += UpdateHealthText;
     }
 
     private void OnDisable()
     {
         EndGameZone.OnLevelCompleted -= HandleLevelComplete;
         PlayerController.OnPlayerDie -= HandlePlayerDie;
+        PlayerController.OnHealthChanged -= UpdateHealthText;
     }
 
     //====// PAUSE MENU MANAGER //====//
@@ -41,7 +43,7 @@ public class InGame_UI : MonoBehaviour
     public void EnablePauseMenuUI()
     {
         Time.timeScale = 0;
-        playerController.DisablePlayerInput();
+        gameManager.DisablePlayerControls();
         DisableInGameUI();
         pauseMenuUI_Panel.SetActive(true);
     }
@@ -50,7 +52,7 @@ public class InGame_UI : MonoBehaviour
     {
         pauseMenuUI_Panel.SetActive(false);
         EnableInGameUI();
-        playerController.EnablePlayerInput();
+        gameManager.EnablePlayerControls();
         Time.timeScale = 1;
     }
 
@@ -59,7 +61,7 @@ public class InGame_UI : MonoBehaviour
     private void HandleLevelEnd()
     {
         Time.timeScale = 0;
-        playerController.DisablePlayerInput();
+        gameManager.DisablePlayerControls();
         DisableInGameUI();
         EndGameMenuUI_Panel.SetActive(true);
         endGameUI.ShowFinalTime(timerValue.text);
@@ -90,5 +92,11 @@ public class InGame_UI : MonoBehaviour
         inGameUICanvasGroup.interactable = false;
         inGameUICanvasGroup.blocksRaycasts = false;
     }
+
+    private void UpdateHealthText(int health)
+    {
+        playerHealthValue.text = health.ToString();
+    }
+
 
 }
