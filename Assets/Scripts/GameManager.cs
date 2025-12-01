@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> levelPrefabs; // List of Level Prefabs, assigned in inspector
     [SerializeField] private GameObject playerPrefab; // Player prefab, assigned in inspector
+    [SerializeField] private InGame_UI inGameUI;
 
     private GameObject currentPlayer;
     private PlayerController playerController;
@@ -19,11 +20,13 @@ public class GameManager : MonoBehaviour
 
     public static event Action AllShardsCollected;
 
+    private int shardsToCollect = 1;
     private int shardCount = 0;
-    public bool allSroudsFound = false;
     public bool winLevel = false;
+    public bool winGame = false;
 
     public float elapsedTime { get; private set; }
+
 
     //=====// EVENT METHODS //=====//
 
@@ -60,6 +63,8 @@ public class GameManager : MonoBehaviour
 
     private void LoadLevel(int index)
     {
+        currentLevelIndex = index;
+
         // Destroy old level if it exists
         if (currentLevel != null)
         {
@@ -70,7 +75,7 @@ public class GameManager : MonoBehaviour
         currentLevel = Instantiate(levelPrefabs[index]);
 
         // Find PlayerSpawn inside the active level
-        Transform spawnPoint = levelPrefabs[index].transform.Find("PlayerSpawn");
+        Transform spawnPoint = currentLevel.transform.Find("PlayerSpawn");
 
         // Destroy old player if it exists
         if (currentPlayer != null)
@@ -83,16 +88,18 @@ public class GameManager : MonoBehaviour
         playerController = currentPlayer.GetComponent<PlayerController>();
 
         // set health, time, and shard count to starting valuess
+        ResetLevelTimer();
+        ResetShardCount();
+        winLevel = false;
+        winGame = false;
+
+        shardsToCollect = 1 + (index * 10); //set level count to complete
     }
 
-    private void LoadNextLevel()
+    public void LoadNextLevel()
     {
         int nextIndex = currentLevelIndex + 1;
-        if (nextIndex < levelPrefabs.Count)
-        {
-            LoadLevel(nextIndex);
-        }
-            
+        LoadLevel(nextIndex);      
     }
 
     public void RestartLevel()
@@ -100,10 +107,6 @@ public class GameManager : MonoBehaviour
         LoadLevel(currentLevelIndex);
     }
 
-    public void NextLevel()
-    {
-        LoadNextLevel();
-    }
 
 
     //=====// GAME DATA METHODS //=====//
@@ -112,12 +115,14 @@ public class GameManager : MonoBehaviour
     private void HandlePlayerDie()
     {
         winLevel = false;
+        inGameUI.HandleLevelEnd();
     }
 
     // Set Game State true on Level Complete
     private void HandleLevelComplete()
     {
         winLevel = true;
+        inGameUI.HandleLevelEnd();
     }
 
     // MOON SHARD COUNTING
@@ -125,7 +130,7 @@ public class GameManager : MonoBehaviour
     {
         shardCount++;
 
-        if (shardCount == 7)
+        if (shardCount == shardsToCollect)
         {
             AllShardsCollected?.Invoke();
         }
@@ -140,6 +145,11 @@ public class GameManager : MonoBehaviour
     public void ResetLevelTimer()
     {
         elapsedTime = 0f;
+    }
+
+    public void ResetShardCount()
+    {
+        shardCount = 0;
     }
 
 

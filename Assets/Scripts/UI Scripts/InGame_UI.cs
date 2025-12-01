@@ -26,15 +26,11 @@ public class InGame_UI : MonoBehaviour
 
     private void OnEnable()
     {
-        EndGameZone.OnLevelCompleted += HandleLevelComplete;
-        PlayerController.OnPlayerDie += HandlePlayerDie;
         PlayerController.OnHealthChanged += UpdateHealthText;
     }
 
     private void OnDisable()
     {
-        EndGameZone.OnLevelCompleted -= HandleLevelComplete;
-        PlayerController.OnPlayerDie -= HandlePlayerDie;
         PlayerController.OnHealthChanged -= UpdateHealthText;
     }
 
@@ -58,25 +54,21 @@ public class InGame_UI : MonoBehaviour
 
     //====// END GAME MENU MANAGER //====//
 
-    private void HandleLevelEnd()
+    public void HandleLevelEnd()
     {
         Time.timeScale = 0;
         gameManager.DisablePlayerControls();
         DisableInGameUI();
         EndGameMenuUI_Panel.SetActive(true);
-        endGameUI.ShowFinalTime(timerValue.text);
-        endGameUI.ShowFinalShardCount(shardCountValue.text);
-        endGameUI.ShowEndGameState(gameManager.winLevel);
+        endGameUI.HandleMenuState(gameManager.winLevel, gameManager.winGame, timerValue.text, shardCountValue.text);
     }
 
-    private void HandlePlayerDie()
+    public void DisableLevelEndUI()
     {
-        HandleLevelEnd();
-    }
-
-    private void HandleLevelComplete()
-    {
-        HandleLevelEnd();
+        EndGameMenuUI_Panel.SetActive(false);
+        EnableInGameUI();
+        gameManager.EnablePlayerControls();
+        Time.timeScale = 1;
     }
 
     //====// IN GAME UI MANAGER //====//

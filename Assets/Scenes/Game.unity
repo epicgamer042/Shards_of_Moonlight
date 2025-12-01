@@ -924,9 +924,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1157d6975124e1e4cb902e83dfed7566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 1898366311}
   endGameState: {fileID: 1628551022}
   finalTime: {fileID: 971795453}
   finalShardCount: {fileID: 1114348698}
+  endLevelButtonText: {fileID: 1433628908}
+  endLevelButton: {fileID: 2135212621}
+  inGameUI: {fileID: 97058250}
 --- !u!1 &406868678
 GameObject:
   m_ObjectHideFlags: 0
@@ -3043,7 +3047,7 @@ GameObject:
   - component: {fileID: 1433628909}
   - component: {fileID: 1433628908}
   m_Layer: 5
-  m_Name: EndCredits_Button_Text
+  m_Name: EndLevel_Button_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3088,7 +3092,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CREDITS
+  m_text: RESTART LEVEL
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bfd886541df7e63459c321002b884f07, type: 2}
   m_sharedMaterial: {fileID: 1466392571884400124, guid: bfd886541df7e63459c321002b884f07, type: 2}
@@ -4170,8 +4174,9 @@ MonoBehaviour:
   - {fileID: 51461285720380191, guid: 0df8829cbb3ba7c4c9b48c3690822c0f, type: 3}
   - {fileID: 6751672666422970180, guid: f54edeaf82c739643958bcdb78b0ab51, type: 3}
   playerPrefab: {fileID: 4670951751060043386, guid: 5b46deb870043ed42a425b64d3f15b43, type: 3}
-  allSroudsFound: 0
+  inGameUI: {fileID: 97058250}
   winLevel: 0
+  winGame: 0
 --- !u!4 &1898366312
 Transform:
   m_ObjectHideFlags: 0
@@ -4814,7 +4819,7 @@ GameObject:
   - component: {fileID: 2135212622}
   - component: {fileID: 2135212621}
   m_Layer: 5
-  m_Name: EndCredits_Button
+  m_Name: EndLevel_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4884,9 +4889,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 379194298}
-        m_TargetAssemblyTypeName: EndGame_UI, Assembly-CSharp
-        m_MethodName: EndCredits
+      - m_Target: {fileID: 1898366311}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: RestartLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
