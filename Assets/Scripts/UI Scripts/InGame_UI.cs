@@ -14,6 +14,7 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerValue;
     [SerializeField] private TextMeshProUGUI shardCountValue;
     [SerializeField] private TextMeshProUGUI playerHealthValue;
+    public TextMeshProUGUI levelTitleText;
 
 
     //=====// EVENT METHODS //=====//

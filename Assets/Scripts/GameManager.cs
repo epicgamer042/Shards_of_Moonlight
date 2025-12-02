@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     public PlayerScoreData scoreData;
 
+    public List<string> levelTitles = new List<string>();
 
     //=====// EVENT METHODS //=====//
 
@@ -40,13 +41,19 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        LoadLevel(0);
+        levelTitles = new List<string>()
+        {
+            "Tutorial",
+            "LEVEL 1: NEW MOON",
+            "LEVEL 2: WAXING CRESCENT",
+            "LEVEL 3: FIRST QUARTER",
+            "LEVEL 4: WAXING GIBBOUS",
+            "LEVEL 5: FULL MOON"
+        };
 
-        //if (scoreData.levelTimes.Count < 6)
-        //{
-        //    scoreData.levelTimes = new List<float>(new float[6]);
-        //}
+        LoadLevel(0);
     }
+
     private void OnEnable()
     {
         EndGameZone.OnLevelCompleted += HandleLevelComplete;
@@ -102,7 +109,8 @@ public class GameManager : MonoBehaviour
         winGame = false;
 
         shardsToCollect = 1; //3 + (index * 3); //set level count to complete
-
+        Debug.Log(index);
+        inGameUI.levelTitleText.text = levelTitles[index];
     }
 
     public void LoadNextLevel()
