@@ -2510,7 +2510,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   isGrounded: 0
-  healthValue: {fileID: 0}
   attack: {fileID: -5040143401972108725, guid: 18d8e6463ffc0b548adbef63f7a450d5, type: 3}
   jump: {fileID: 4016641135004302007, guid: 18d8e6463ffc0b548adbef63f7a450d5, type: 3}
   move: {fileID: -6323504667231370231, guid: 18d8e6463ffc0b548adbef63f7a450d5, type: 3}

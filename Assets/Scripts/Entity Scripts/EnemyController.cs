@@ -98,7 +98,7 @@ public class EnemyController : Entity
             MoonShard shardScript = shard.GetComponent<MoonShard>();
             Rigidbody2D shardRb = shard.GetComponent<Rigidbody2D>();
 
-            shardScript.SetPickupDelay(0.64f);
+            shardScript.SetPickupDelay(0.5f);
             float xVel = Random.Range(-2f, 2f);
             float yVel = Random.Range(2f, 5f);
             shardRb.linearVelocity = new Vector2(xVel, yVel);
