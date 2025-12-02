@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     //=====// GAME DATA MANAGEMENT //=====//
 
     public static event Action AllShardsCollected;
+    public static event Action<int> OnShardChanged;
 
     private int shardsToCollect = 1;
     private int shardCount = 0;
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour
     public bool winGame = false;
 
     public float elapsedTime { get; private set; }
+
+    public PlayerScoreData scoreData;
 
 
     //=====// EVENT METHODS //=====//
@@ -38,6 +41,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         LoadLevel(0);
+
+        //if (scoreData.levelTimes.Count < 6)
+        //{
+        //    scoreData.levelTimes = new List<float>(new float[6]);
+        //}
     }
     private void OnEnable()
     {
@@ -93,7 +101,8 @@ public class GameManager : MonoBehaviour
         winLevel = false;
         winGame = false;
 
-        shardsToCollect = 1 + (index * 10); //set level count to complete
+        shardsToCollect = 1; //3 + (index * 3); //set level count to complete
+
     }
 
     public void LoadNextLevel()
@@ -122,6 +131,14 @@ public class GameManager : MonoBehaviour
     private void HandleLevelComplete()
     {
         winLevel = true;
+
+        scoreData.levelTimes[currentLevelIndex] = elapsedTime;
+
+        if (currentLevelIndex == 5)
+        {
+            winGame = true;
+        }
+
         inGameUI.HandleLevelEnd();
     }
 
@@ -141,6 +158,11 @@ public class GameManager : MonoBehaviour
         return shardCount;
     }
 
+    public int getShardsToCollect()
+    {
+        return shardsToCollect;
+    }
+
     // Rest Level Timer to 0
     public void ResetLevelTimer()
     {
@@ -152,6 +174,10 @@ public class GameManager : MonoBehaviour
         shardCount = 0;
     }
 
+    public void UpdateShardUI()
+    {
+        OnShardChanged?.Invoke(getShardCount());
+    }
 
     //====// PLAYER CONTROL //====//
 
@@ -164,4 +190,5 @@ public class GameManager : MonoBehaviour
     {
         playerController.DisablePlayerInput();
     }
+
 }

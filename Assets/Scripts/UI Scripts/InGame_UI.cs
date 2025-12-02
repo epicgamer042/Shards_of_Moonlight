@@ -21,17 +21,19 @@ public class InGame_UI : MonoBehaviour
     private void Update()
     {
         timerValue.text = gameManager.elapsedTime.ToString("F2") + "s";
-        shardCountValue.text = gameManager.getShardCount().ToString();
+        shardCountValue.text = gameManager.getShardCount().ToString() + "/" + gameManager.getShardsToCollect().ToString();
     }
 
     private void OnEnable()
     {
         PlayerController.OnHealthChanged += UpdateHealthText;
+        GameManager.OnShardChanged += UpdateShardText;
     }
 
     private void OnDisable()
     {
         PlayerController.OnHealthChanged -= UpdateHealthText;
+        GameManager.OnShardChanged -= UpdateShardText;
     }
 
     //====// PAUSE MENU MANAGER //====//
@@ -90,5 +92,8 @@ public class InGame_UI : MonoBehaviour
         playerHealthValue.text = health.ToString();
     }
 
-
+    private void UpdateShardText(int shards)
+    {
+        shardCountValue.text = shards.ToString() + "/" + gameManager.getShardsToCollect().ToString();
+    }
 }
