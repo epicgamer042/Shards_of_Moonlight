@@ -52,7 +52,7 @@ public class EnemyRespawnerZone : MonoBehaviour
         else if (other.CompareTag("Player")) // When Player exits zone
         {
             playerInZone = false; // Mark has exited
-            if (spawnRoutine == null) // Confirm spawnroutine is null
+            if (spawnRoutine == null && gameObject.activeInHierarchy) // Confirm spawnroutine is null and object is active
                 spawnRoutine = StartCoroutine(HandleEnemySpawn()); // Begin zone spawn cycle
         }
     }

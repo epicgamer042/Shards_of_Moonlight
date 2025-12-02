@@ -41,16 +41,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        levelTitles = new List<string>()
-        {
-            "Tutorial",
-            "LEVEL 1: NEW MOON",
-            "LEVEL 2: WAXING CRESCENT",
-            "LEVEL 3: FIRST QUARTER",
-            "LEVEL 4: WAXING GIBBOUS",
-            "LEVEL 5: FULL MOON"
-        };
-
+        PopulateLevelTitles();
         LoadLevel(0);
     }
 
@@ -109,7 +100,7 @@ public class GameManager : MonoBehaviour
         winGame = false;
 
         shardsToCollect = 1; //3 + (index * 3); //set level count to complete
-        Debug.Log(index);
+        
         inGameUI.levelTitleText.text = levelTitles[index];
     }
 
@@ -124,6 +115,18 @@ public class GameManager : MonoBehaviour
         LoadLevel(currentLevelIndex);
     }
 
+    public void PopulateLevelTitles()
+    {
+        levelTitles = new List<string>()
+        {
+            "Tutorial",
+            "LEVEL 1: NEW MOON",
+            "LEVEL 2: WAXING CRESCENT",
+            "LEVEL 3: FIRST QUARTER",
+            "LEVEL 4: WAXING GIBBOUS",
+            "LEVEL 5: FULL MOON"
+        };
+    }
 
 
     //=====// GAME DATA METHODS //=====//
