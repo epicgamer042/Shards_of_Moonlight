@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -99,7 +100,7 @@ public class GameManager : MonoBehaviour
         winLevel = false;
         winGame = false;
 
-        shardsToCollect = 1; //3 + (index * 3); //set level count to complete
+        shardsToCollect = 7 + (index * 3); //set level count to complete
         
         inGameUI.levelTitleText.text = levelTitles[index];
     }
