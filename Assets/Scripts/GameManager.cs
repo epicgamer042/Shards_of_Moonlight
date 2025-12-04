@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Overlays;
+// using UnityEditor.Overlays; //this might be causing issues
 using UnityEngine;
-using UnityEngine.Rendering;
+// using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
