@@ -20,6 +20,8 @@ public class Entity : MonoBehaviour
     [SerializeField] private Material damageMaterial;
     [SerializeField] private float damageFeedbackDuration = 0.1f;
     private Coroutine damageFeedbackCoroutine;
+    private Material passStableMaterial;
+    private Color passStableColor;
     
 
     [Header("Attack details")]
@@ -119,15 +121,23 @@ public class Entity : MonoBehaviour
     private void PlayDamageFeedback()
     {
         if (damageFeedbackCoroutine != null)
-            StopCoroutine(DamageFeedbackCoroutine());
+        {
+            StopCoroutine(damageFeedbackCoroutine);
+            sr.material = passStableMaterial;
+            sr.color = passStableColor;
+        }
+            
 
-        StartCoroutine(DamageFeedbackCoroutine());
+        damageFeedbackCoroutine = StartCoroutine(DamageFeedbackCoroutine());
     }
 
     private IEnumerator DamageFeedbackCoroutine()
     {
         Material originalMat = sr.material;
         Color originalColor = sr.color;
+
+        passStableMaterial = originalMat;
+        passStableColor = originalColor;
 
         sr.color = Color.white;          // force neutral color
         sr.material = damageMaterial;
