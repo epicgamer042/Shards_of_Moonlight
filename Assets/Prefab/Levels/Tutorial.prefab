@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 9191964141013600934}
   m_Layer: 0
   m_Name: Moon Shards
-  m_TagString: Untagged
+  m_TagString: ShardContainer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
