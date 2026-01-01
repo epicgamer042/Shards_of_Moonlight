@@ -15,10 +15,17 @@ public class EnemyController : Entity
     private float attackCooldown = 1f; // seconds
     private float lastAttackTime;
 
+    public Transform shardParent; 
     public GameObject moonShardPrefab;
 
 
     //=====// EVENT METHODS //=====//
+
+    protected override void Awake()
+    {
+        base.Awake();
+        shardParent = GameObject.FindGameObjectWithTag("ShardContainer").transform;
+    }
 
     protected override void Update()
     {
@@ -93,7 +100,7 @@ public class EnemyController : Entity
     {
         for (int i = 0; i < Random.Range(0, 3); i++)
         {
-            GameObject shard = Instantiate(moonShardPrefab, transform.position, Quaternion.identity);
+            GameObject shard = Instantiate(moonShardPrefab, transform.position, Quaternion.identity, shardParent);
 
             MoonShard shardScript = shard.GetComponent<MoonShard>();
             Rigidbody2D shardRb = shard.GetComponent<Rigidbody2D>();
