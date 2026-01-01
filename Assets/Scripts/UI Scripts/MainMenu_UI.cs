@@ -3,9 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu_UI : MonoBehaviour
 {
-      
-    public void PlayGame()
+    public void StartTutorial()
     {
+        GameStartData.StartInTutorial = true;
+        SceneManager.LoadScene("Game");
+    }
+    
+    public void StartGame()
+    {
+        GameStartData.StartInTutorial = false;
         SceneManager.LoadScene("Game");
     }
 

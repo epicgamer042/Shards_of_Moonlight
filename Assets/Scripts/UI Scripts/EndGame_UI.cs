@@ -50,6 +50,11 @@ public class EndGame_UI : MonoBehaviour
         SceneManager.LoadScene("EndCredits");
     }
 
+    public void TitleScreen()
+    {
+        SceneManager.LoadScene("TitleScreen");
+    }
+
     public void HandleButtonState(bool levelstate, bool gamestate)
     {
         if (gamestate) //game completed
@@ -60,9 +65,17 @@ public class EndGame_UI : MonoBehaviour
         }
         else if (levelstate) //level completed but not game completed
         {
-            //set button function and text to next level
-            endLevelButtonText.text = "NEXT LEVEL";
-            SetNextLevelButton();
+            if (GameStartData.StartInTutorial) //Tutorial Completed, return to title screen
+            {
+                endLevelButtonText.text = "TITLE SCREEN";
+                SetTitleScreenButton();
+            }
+            else //set button function and text to next level
+            {
+                endLevelButtonText.text = "NEXT LEVEL";
+                SetNextLevelButton();
+            }
+                
         }
         else // level ended unsuccessfully
         {
@@ -70,6 +83,12 @@ public class EndGame_UI : MonoBehaviour
             endLevelButtonText.text = "RESTART LEVEL";
             SetRestartButton();
         }
+    }
+
+    private void SetTitleScreenButton()
+    {
+        endLevelButton.onClick.RemoveAllListeners();
+        endLevelButton.onClick.AddListener(TitleScreen);
     }
 
     private void SetRestartButton()

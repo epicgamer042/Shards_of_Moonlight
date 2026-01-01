@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-// using UnityEditor.Overlays; //this might be causing issues
 using UnityEngine;
-// using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -43,7 +41,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         PopulateLevelTitles();
-        LoadLevel(0);
+        StartLevel();
     }
 
     private void OnEnable()
@@ -67,6 +65,18 @@ public class GameManager : MonoBehaviour
 
 
     //=====// LEVEL STATE METHODS //=====//
+
+    private void StartLevel()
+    {
+        if (GameStartData.StartInTutorial)
+        {
+            LoadLevel(0);
+        }
+        else
+        {
+            LoadLevel(1);
+        }
+    }
 
     private void LoadLevel(int index)
     {
