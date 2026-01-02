@@ -7,7 +7,6 @@ public class EndCredits_UI : MonoBehaviour
 {
     public PlayerScoreData scoreData;
 
-    [SerializeField] private TextMeshProUGUI tutorialTimeValue;
     [SerializeField] private TextMeshProUGUI level1TimeValue;
     [SerializeField] private TextMeshProUGUI level2TimeValue;
     [SerializeField] private TextMeshProUGUI level3TimeValue;
@@ -22,24 +21,20 @@ public class EndCredits_UI : MonoBehaviour
 
     public void HandleGameTimes()
     {
-        
-        
-        tutorialTimeValue.text = scoreData.levelTimes[0].ToString("F2") + "s";
         level1TimeValue.text = scoreData.levelTimes[1].ToString("F2") + "s";
         level2TimeValue.text = scoreData.levelTimes[2].ToString("F2") + "s";
         level3TimeValue.text = scoreData.levelTimes[3].ToString("F2") + "s";
         level4TimeValue.text = scoreData.levelTimes[4].ToString("F2") + "s";
         level5TimeValue.text = scoreData.levelTimes[5].ToString("F2") + "s";
         totalTimeValue.text = countTotal();
-
     }
 
     public string countTotal()
     {
         float total = 0f;
-        foreach (float time in scoreData.levelTimes)
+        for (int i = 1; i <= 5; i++)
         {
-            total += time;
+            total += scoreData.levelTimes[i];
         }
         return total.ToString("F2") + "s";
     }
