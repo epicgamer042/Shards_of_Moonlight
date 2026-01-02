@@ -41,27 +41,21 @@ public class InGame_UI : MonoBehaviour
 
     public void EnablePauseMenuUI()
     {
-        Time.timeScale = 0;
-        gameManager.DisablePlayerControls();
-        DisableInGameUI();
+        gameManager.EnablePauseGame();
         pauseMenuUI_Panel.SetActive(true);
     }
 
     public void DisablePauseMenuUI()
     {
         pauseMenuUI_Panel.SetActive(false);
-        EnableInGameUI();
-        gameManager.EnablePlayerControls();
-        Time.timeScale = 1;
+        gameManager.DisablePauseGame();
     }
 
     //====// END GAME MENU MANAGER //====//
 
     public void HandleLevelEnd()
     {
-        Time.timeScale = 0;
-        gameManager.DisablePlayerControls();
-        DisableInGameUI();
+        gameManager.EnablePauseGame();
         EndGameMenuUI_Panel.SetActive(true);
         endGameUI.HandleMenuState(gameManager.winLevel, gameManager.winGame, timerValue.text, shardCountValue.text);
     }
@@ -69,9 +63,7 @@ public class InGame_UI : MonoBehaviour
     public void DisableLevelEndUI()
     {
         EndGameMenuUI_Panel.SetActive(false);
-        EnableInGameUI();
-        gameManager.EnablePlayerControls();
-        Time.timeScale = 1;
+        gameManager.DisablePauseGame();
     }
 
     //====// IN GAME UI MANAGER //====//

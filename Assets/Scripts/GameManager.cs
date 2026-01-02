@@ -201,6 +201,22 @@ public class GameManager : MonoBehaviour
         OnShardChanged?.Invoke(getShardCount());
     }
 
+    //====// GAME CONTROL //====//
+
+    public void EnablePauseGame()
+    {
+        Time.timeScale = 0;
+        DisablePlayerControls();
+        inGameUI.DisableInGameUI();
+    }
+
+    public void DisablePauseGame()
+    {
+        inGameUI.EnableInGameUI();
+        EnablePlayerControls();
+        Time.timeScale = 1;
+    }
+
     //====// PLAYER CONTROL //====//
 
     public void EnablePlayerControls()
@@ -212,5 +228,6 @@ public class GameManager : MonoBehaviour
     {
         playerController.DisablePlayerInput();
     }
+
 
 }
