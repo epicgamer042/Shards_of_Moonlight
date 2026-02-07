@@ -26,7 +26,7 @@ public class PlayerController : Entity
         
         UpdateHealthUI();
 
-        input = new PlayerControls();
+        input = GlobalInputManager.Controls;
     }
 
     protected override void Update()

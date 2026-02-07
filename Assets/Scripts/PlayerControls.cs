@@ -443,7 +443,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/dpad"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Controller"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -465,7 +465,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/stick/up"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Joystick"",
+                    ""groups"": ""Joystick;Controller"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -476,7 +476,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/stick/down"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Joystick"",
+                    ""groups"": ""Joystick;Controller"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -487,7 +487,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/stick/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Joystick"",
+                    ""groups"": ""Joystick;Controller"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -498,7 +498,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/stick/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Joystick"",
+                    ""groups"": ""Joystick;Controller"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -520,7 +520,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -531,7 +531,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -542,7 +542,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -553,7 +553,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -564,7 +564,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -575,7 +575,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -586,7 +586,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -597,7 +597,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true

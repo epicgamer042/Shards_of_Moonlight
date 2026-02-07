@@ -8,7 +8,7 @@ public class MainMenu_UI : MonoBehaviour
 
     private void Awake()
     {
-        input = new PlayerControls();
+        input = GlobalInputManager.Controls;
     }
 
     private void OnEnable()
