@@ -387,6 +387,8 @@ MonoBehaviour:
   gameManager: {fileID: 1898366311}
   pauseMenuUI_Panel: {fileID: 230260663}
   EndGameMenuUI_Panel: {fileID: 379194295}
+  pauseMenuFirstSelected: {fileID: 1962799336}
+  EndGameMenuFirstSelected: {fileID: 2135212619}
   endGameUI: {fileID: 379194298}
   inGameUICanvasGroup: {fileID: 97058251}
   timerValue: {fileID: 593843380}

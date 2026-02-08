@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviour
         return shardsToCollect;
     }
 
-    // Rest Level Timer to 0
+    // Reset Level Timer to 0
     public void ResetLevelTimer()
     {
         elapsedTime = 0f;
@@ -228,6 +228,5 @@ public class GameManager : MonoBehaviour
     {
         playerController.DisablePlayerInput();
     }
-
 
 }
