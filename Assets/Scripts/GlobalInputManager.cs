@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.LowLevel;
 
 public enum InputDeviceScheme
@@ -46,29 +48,70 @@ public class GlobalInputManager : MonoBehaviour
 
     private void OnInputEvent(InputEventPtr eventPtr, InputDevice device)
     {
+        // Ignore unwanted traffic
+        if (!eventPtr.IsA<StateEvent>() && !eventPtr.IsA<DeltaStateEvent>()) 
+            return;
+
         // Listen for device change by input event
+        var incomingScheme = GetSchemeFromDevice(device);
+        
+        // Exit if same scheme
+        if (incomingScheme == lastScheme) 
+            return;
+
         // determine what device generated it
         // fire event if control scheme changed
         // debounce stick drift and small mouse movement
 
         //InputSystem.onEvent fires for every input from every device
-
         
-        if (device is Mouse)
+        if (device is Mouse mouse)
         {
+            // Ignore tiny mouse movement (noise), update scheme on large mouse movement
+            var delta = mouse.delta.ReadValue();
+            if (delta.sqrMagnitude > 0.5f) // tweak threshold
+                UpdateScheme(InputDeviceScheme.KeyboardMouse);
+
+            // Update scheme on mouse click
+            if (mouse.leftButton.isPressed || mouse.rightButton.isPressed)
+                UpdateScheme(InputDeviceScheme.KeyboardMouse);
+        }
+
+        if (device is Keyboard keyboard)
+        {
+            // Update schem on any key press
+            if (keyboard.anyKey.isPressed)
+            {
+                UpdateScheme(InputDeviceScheme.KeyboardMouse);
+            }
 
         }
 
-        if (device is Keyboard)
+        if (device is Gamepad gamepad)
         {
+            // Ignore stick drift
+            Vector2 left = gamepad.leftStick.ReadValue();
+            Vector2 right = gamepad.rightStick.ReadValue();
 
+            bool stickMoved = left.sqrMagnitude > 0.2f || right.sqrMagnitude > 0.2f;
+
+            bool buttonPressed = gamepad.allControls.OfType<ButtonControl>().Any(b => b.wasPressedThisFrame); // Using LINQ tool
+
+            if (stickMoved || buttonPressed) 
+                UpdateScheme(InputDeviceScheme.Gamepad);
         }
 
-        if (device is Gamepad)
-        {
+    }
 
-        }
-
+    private InputDeviceScheme GetSchemeFromDevice(InputDevice device)
+    {
+        if (device is Gamepad) 
+            return InputDeviceScheme.Gamepad; 
+        
+        if (device is Keyboard || device is Mouse) 
+            return InputDeviceScheme.KeyboardMouse; 
+        
+        return lastScheme; // fallback
     }
 
     private void UpdateScheme(InputDeviceScheme newScheme)
