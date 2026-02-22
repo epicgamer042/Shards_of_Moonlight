@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviour
         return shardsToCollect;
     }
 
-    // Rest Level Timer to 0
+    // Reset Level Timer to 0
     public void ResetLevelTimer()
     {
         elapsedTime = 0f;
@@ -199,6 +199,22 @@ public class GameManager : MonoBehaviour
     public void UpdateShardUI()
     {
         OnShardChanged?.Invoke(getShardCount());
+    }
+
+    //====// GAME CONTROL //====//
+
+    public void EnablePauseGame()
+    {
+        Time.timeScale = 0;
+        DisablePlayerControls();
+        inGameUI.DisableInGameUI();
+    }
+
+    public void DisablePauseGame()
+    {
+        inGameUI.EnableInGameUI();
+        EnablePlayerControls();
+        Time.timeScale = 1;
     }
 
     //====// PLAYER CONTROL //====//

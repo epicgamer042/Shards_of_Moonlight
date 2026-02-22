@@ -1,28 +1,19 @@
 
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 public class PlayerController : Entity
 {
 
     //=====// DEFINITIONS //=====//
 
-    [Header("Input Action References")]
-    public InputActionReference attack;
-    public InputActionReference jump;
-    public InputActionReference move;
-
     [Header("Settings")]
     public float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 8f;
 
+    private PlayerControls input;
     private float horizontal;
-
-    [SerializeField] private InputActionAsset inputActions;
-    private InputActionMap gameplayMap;
 
     public static event Action OnPlayerDie;
     public static event Action<int> OnHealthChanged;
@@ -32,9 +23,10 @@ public class PlayerController : Entity
     protected override void Awake()
     {
         base.Awake();
+        
         UpdateHealthUI();
-        gameplayMap = inputActions.FindActionMap("Gameplay", true);
-        gameplayMap.Enable();
+
+        input = GlobalInputManager.Controls;
     }
 
     protected override void Update()
@@ -45,61 +37,42 @@ public class PlayerController : Entity
 
     private void OnEnable()
     {
-        SetupAction(attack, TryAttack, true);
-        SetupAction(jump, TryJump, true);
-        SetupAction(move, null, true); // move has no event, just enabled
+        EnablePlayerInput();
+        input.UI.Enable();
+
+        input.Gameplay.Attack.performed += TryAttack;
+        input.Gameplay.Jump.performed += TryJump;
     }
 
     private void OnDisable()
     {
-        SetupAction(attack, TryAttack, false);
-        SetupAction(jump, TryJump, false);
-        SetupAction(move, null, false);
+        input.Gameplay.Attack.performed -= TryAttack;
+        input.Gameplay.Jump.performed -= TryJump;
+
+        DisablePlayerInput();
+        input.UI.Disable();
     }
 
 
-    //=====// INPUT ACTION MANAGEMENT //=====//
-
-    private void SetupAction(InputActionReference actionRef, 
-                             System.Action<InputAction.CallbackContext> callback, 
-                             bool enable)
-    {
-        if (actionRef != null && actionRef.action != null)
-        {
-            if (enable)
-            {
-                if (callback != null) actionRef.action.performed += callback;
-                actionRef.action.Enable();
-            }
-            else
-            {
-                if (callback != null) actionRef.action.performed -= callback;
-                actionRef.action.Disable();
-            }
-        }
-    }
+    //=====// INPUT MANAGEMENT //=====//
 
     private void ReadMoveInput()
     {
-        // Check if move action is valid before reading
-        if (move != null && move.action != null)
-        {
-            horizontal = move.action.ReadValue<float>();
-        }
+        horizontal = input.Gameplay.Move.ReadValue<float>();
     }
 
     public void EnablePlayerInput()
     {
-        gameplayMap.Enable();
+        input.Gameplay.Enable();
     }
 
     public void DisablePlayerInput()
     {
-        gameplayMap.Disable();
+        input.Gameplay.Disable();
     }
 
 
-    //=====// MOVEMENT //=====//
+    //=====// MOVEMENT METHODS //=====//
 
     private void TryJump(InputAction.CallbackContext ctx)
     {
@@ -120,15 +93,13 @@ public class PlayerController : Entity
 
     protected override void HandleFlip()
     {
-        if (move != null && move.action != null && canFlip)
-        {
-            float moveInput = move.action.ReadValue<float>();
+        if (!canFlip)
+            return;
+            
+        float moveInput = horizontal;
 
-            if ((moveInput > 0 && !facingRight) || (moveInput < 0 && facingRight))
-            {
-                Flip();
-            }
-        }
+        if ((moveInput > 0 && !facingRight) || (moveInput < 0 && facingRight))
+            Flip();
     }
 
     //=====// HEALTH METHODS //=====//
